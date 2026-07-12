@@ -99,6 +99,8 @@ Optional:
     - key_vault_reference_identity_id
     - public_network_access_enabled
     - storage_account_access_key
+    - storage_account_access_key_key_vault_id (alternative to storage_account_access_key - read from Key Vault instead)
+    - storage_account_access_key_key_vault_secret_name (alternative to storage_account_access_key - read from Key Vault instead)
     - storage_account_name
     - storage_key_vault_secret_id
     - storage_uses_managed_identity
@@ -248,33 +250,35 @@ Optional:
 EOT
 
   type = map(object({
-    location                                       = string
-    name                                           = string
-    resource_group_name                            = string
-    service_plan_id                                = string
-    vnet_image_pull_enabled                        = optional(bool) # Default: false
-    virtual_network_subnet_id                      = optional(string)
-    virtual_network_backup_restore_enabled         = optional(bool) # Default: false
-    tags                                           = optional(map(string))
-    storage_uses_managed_identity                  = optional(bool) # Default: false
-    storage_key_vault_secret_id                    = optional(string)
-    storage_account_name                           = optional(string)
-    storage_account_access_key                     = optional(string)
-    public_network_access_enabled                  = optional(bool) # Default: true
-    key_vault_reference_identity_id                = optional(string)
-    functions_extension_version                    = optional(string) # Default: "~4"
-    webdeploy_publish_basic_authentication_enabled = optional(bool)   # Default: true
-    ftp_publish_basic_authentication_enabled       = optional(bool)   # Default: true
-    enabled                                        = optional(bool)   # Default: true
-    daily_memory_time_quota                        = optional(number) # Default: 0
-    content_share_force_disabled                   = optional(bool)   # Default: false
-    client_certificate_mode                        = optional(string) # Default: "Optional"
-    client_certificate_exclusion_paths             = optional(string)
-    client_certificate_enabled                     = optional(bool) # Default: false
-    builtin_logging_enabled                        = optional(bool) # Default: true
-    app_settings                                   = optional(map(string))
-    https_only                                     = optional(bool) # Default: false
-    zip_deploy_file                                = optional(string)
+    location                                         = string
+    name                                             = string
+    resource_group_name                              = string
+    service_plan_id                                  = string
+    vnet_image_pull_enabled                          = optional(bool) # Default: false
+    virtual_network_subnet_id                        = optional(string)
+    virtual_network_backup_restore_enabled           = optional(bool) # Default: false
+    tags                                             = optional(map(string))
+    storage_uses_managed_identity                    = optional(bool) # Default: false
+    storage_key_vault_secret_id                      = optional(string)
+    storage_account_name                             = optional(string)
+    storage_account_access_key                       = optional(string)
+    storage_account_access_key_key_vault_id          = optional(string)
+    storage_account_access_key_key_vault_secret_name = optional(string)
+    public_network_access_enabled                    = optional(bool) # Default: true
+    key_vault_reference_identity_id                  = optional(string)
+    functions_extension_version                      = optional(string) # Default: "~4"
+    webdeploy_publish_basic_authentication_enabled   = optional(bool)   # Default: true
+    ftp_publish_basic_authentication_enabled         = optional(bool)   # Default: true
+    enabled                                          = optional(bool)   # Default: true
+    daily_memory_time_quota                          = optional(number) # Default: 0
+    content_share_force_disabled                     = optional(bool)   # Default: false
+    client_certificate_mode                          = optional(string) # Default: "Optional"
+    client_certificate_exclusion_paths               = optional(string)
+    client_certificate_enabled                       = optional(bool) # Default: false
+    builtin_logging_enabled                          = optional(bool) # Default: true
+    app_settings                                     = optional(map(string))
+    https_only                                       = optional(bool) # Default: false
+    zip_deploy_file                                  = optional(string)
     site_config = object({
       always_on             = optional(bool)
       api_definition_url    = optional(string)

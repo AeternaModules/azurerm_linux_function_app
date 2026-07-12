@@ -1,3 +1,8 @@
+data "azurerm_key_vault_secret" "storage_account_access_key" {
+  for_each     = { for k, v in var.linux_function_apps : k => v if v.storage_account_access_key_key_vault_id != null && v.storage_account_access_key_key_vault_secret_name != null }
+  name         = each.value.storage_account_access_key_key_vault_secret_name
+  key_vault_id = each.value.storage_account_access_key_key_vault_id
+}
 resource "azurerm_linux_function_app" "linux_function_apps" {
   for_each = var.linux_function_apps
 
@@ -12,7 +17,7 @@ resource "azurerm_linux_function_app" "linux_function_apps" {
   storage_uses_managed_identity                  = each.value.storage_uses_managed_identity
   storage_key_vault_secret_id                    = each.value.storage_key_vault_secret_id
   storage_account_name                           = each.value.storage_account_name
-  storage_account_access_key                     = each.value.storage_account_access_key
+  storage_account_access_key                     = each.value.storage_account_access_key != null ? each.value.storage_account_access_key : try(data.azurerm_key_vault_secret.storage_account_access_key[each.key].value, null)
   public_network_access_enabled                  = each.value.public_network_access_enabled
   key_vault_reference_identity_id                = each.value.key_vault_reference_identity_id
   functions_extension_version                    = each.value.functions_extension_version
